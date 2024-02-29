@@ -1,8 +1,8 @@
-from configuration.allowed_player_moves import AllowedPlayerMoves
-from configuration.constants import SCREEN_HEIGHT_PX, SCREEN_WIDTH_PX, SCREEN_COLOR, FPS
+from src.configuration.allowed_player_moves import AllowedPlayerMoves
+from src.configuration.constants import ConfigType, ConfigKeys
 from src.deps_wrappers.pygame_wrapper import Pygame
 from src.shapes.snake import Snake
-from src.shapes.food import Food
+from src.utils.config_manager import ConfigManager
 from typing import Optional
 
 snake: Optional[Snake] = None
@@ -37,13 +37,18 @@ def create_food():
 
 def update_clock():
     global delta_time
-    delta_time = Pygame.tick_clock(FPS)
+    delta_time = Pygame.tick_clock(ConfigManager.get_int(ConfigType.GAME, ConfigKeys.FPS))
 
 
 def run_game():
 
     Pygame.init()
-    Pygame.set_screen_mode(SCREEN_WIDTH_PX, SCREEN_HEIGHT_PX, SCREEN_COLOR)
+
+    screen_width_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX)
+    screen_height_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX)
+    screen_color = ConfigManager.get(ConfigType.SCREEN, ConfigKeys.SCREEN_COLOR)
+    Pygame.set_screen_mode(screen_width_px, screen_height_px, screen_color)
+
     Pygame.init_clock()
 
     running = True
