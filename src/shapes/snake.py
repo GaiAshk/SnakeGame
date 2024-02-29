@@ -1,6 +1,7 @@
 from src.configuration.allowed_player_moves import AllowedPlayerMoves
 from src.configuration.constants import ConfigType, ConfigKeys
 from src.utils.config_manager import ConfigManager
+from src.utils.logger import logger
 
 
 class Snake:
@@ -20,7 +21,7 @@ class Snake:
     def update_location(self, player_move: AllowedPlayerMoves, delta_time: float) -> None:
         key_movement_px = ConfigManager.get_int(ConfigType.GAME, ConfigKeys.KEY_MOVEMENT_PX)
         if player_move.no_move:
-            print("No move made")
+            logger.info("No move made")
             return None
         elif player_move.up:
             self.x_dir = 0
@@ -39,7 +40,7 @@ class Snake:
             self.y_dir = 0
             self.x_pos += (key_movement_px * delta_time)
         else:
-            print("Not allowed move")
+            logger.error("Not allowed move")
 
-        print(f"Snake location is: {self.y_pos}, {self.x_pos}")
+        logger.debug(f"Snake location is: {self.y_pos}, {self.x_pos}")
         return None
