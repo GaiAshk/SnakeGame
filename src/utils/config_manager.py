@@ -14,3 +14,7 @@ class ConfigManager:
     @classmethod
     def get_int(cls, config_type: str, config_key: str) -> int:
         return int(cls.config[config_type][config_key])
+
+    @classmethod
+    def get_raw(cls, config_type: str, config_key: str) -> str:
+        return cls.config.get(config_type, config_key, raw=True)

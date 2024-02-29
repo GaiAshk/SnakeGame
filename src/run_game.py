@@ -3,6 +3,7 @@ from src.configuration.constants import ConfigType, ConfigKeys
 from src.deps_wrappers.pygame_wrapper import Pygame
 from src.shapes.snake import Snake
 from src.utils.config_manager import ConfigManager
+from src.utils.logger import logger
 from typing import Optional
 
 snake: Optional[Snake] = None
@@ -10,7 +11,7 @@ delta_time: float = 0.0
 
 
 def draw_snake() -> None:
-    print("draw snake")
+    logger.debug("Draw Snake")
 
     global snake
     if not snake:
@@ -31,7 +32,7 @@ def get_player_move() -> AllowedPlayerMoves:
 
 
 def create_food():
-    print("create_food")
+    logger.info("create_food")
     pass
 
 

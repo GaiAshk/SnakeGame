@@ -52,7 +52,6 @@ class Pygame:
     def draw_rect(cls, color: str, left, top, width, height):
         pygame_rect: pygame.Rect = pygame.Rect(left, top, width, height)
         rect = pygame.draw.rect(cls.screen, color, pygame_rect)
-        print(rect)
 
     @classmethod
     def draw_rect_move(cls, x: int, y: int):
