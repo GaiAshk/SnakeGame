@@ -34,19 +34,19 @@ class Snake:
         elif player_move.up:
             self.x_dir = 0
             self.y_dir = 1
-            self.y_pos -= key_movement_px * delta_time
+            self.y_pos -= int(key_movement_px * delta_time)
         elif player_move.down:
             self.x_dir = 0
             self.y_dir = -1
-            self.y_pos += key_movement_px * delta_time
+            self.y_pos += int(key_movement_px * delta_time)
         elif player_move.left:
             self.x_dir = -1
             self.y_dir = 0
-            self.x_pos -= key_movement_px * delta_time
+            self.x_pos -= int(key_movement_px * delta_time)
         elif player_move.right:
             self.x_dir = 1
             self.y_dir = 0
-            self.x_pos += key_movement_px * delta_time
+            self.x_pos += int(key_movement_px * delta_time)
         else:
             logger.error("Not allowed move")
 

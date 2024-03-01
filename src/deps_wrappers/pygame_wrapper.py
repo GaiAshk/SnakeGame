@@ -7,7 +7,7 @@ from typing import Optional
 class Pygame:
 
     screen: Optional[pygame.surface.Surface] = None
-    screen_color: str = None
+    screen_color: Optional[str] = None
     clock: Optional[pygame.time.Clock] = None
 
     @classmethod
@@ -65,7 +65,7 @@ class Pygame:
     def tick_clock(cls, fps: int) -> float:
         # limits FPS to a constant FPS
         # dt is delta time in seconds since last frame, used for frame rate independent physics.
-        dt = cls.clock.tick(fps) / 1000
+        dt: float = cls.clock.tick(fps) / 1000
         return dt
 
     @classmethod
