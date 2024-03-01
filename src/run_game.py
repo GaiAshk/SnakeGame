@@ -18,7 +18,9 @@ def draw_snake() -> None:
         # draw first snake at screen center
         screen_center_x, screen_center_y = Pygame.get_screen_center()
         snake = Snake(screen_center_x, screen_center_y)
-        Pygame.draw_rect(snake.color, snake.x_pos, snake.y_pos, snake.width, snake.height)
+        Pygame.draw_rect(
+            snake.color, snake.x_pos, snake.y_pos, snake.width, snake.height
+        )
         return None
 
     # update snake location
@@ -38,15 +40,21 @@ def create_food():
 
 def update_clock():
     global delta_time
-    delta_time = Pygame.tick_clock(ConfigManager.get_int(ConfigType.GAME, ConfigKeys.FPS))
+    delta_time = Pygame.tick_clock(
+        ConfigManager.get_int(ConfigType.GAME, ConfigKeys.FPS)
+    )
 
 
 def run_game():
 
     Pygame.init()
 
-    screen_width_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX)
-    screen_height_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX)
+    screen_width_px = ConfigManager.get_int(
+        ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX
+    )
+    screen_height_px = ConfigManager.get_int(
+        ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX
+    )
     screen_color = ConfigManager.get(ConfigType.SCREEN, ConfigKeys.SCREEN_COLOR)
     Pygame.set_screen_mode(screen_width_px, screen_height_px, screen_color)
 

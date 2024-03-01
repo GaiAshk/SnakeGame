@@ -9,4 +9,3 @@ class Food:
 
     def create_food(self):
         pass
-
