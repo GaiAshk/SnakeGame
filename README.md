@@ -1,2 +1,2 @@
 # SnakeGame
-A SnakeGame project written in Python 
+A SnakeGame project written in Python
