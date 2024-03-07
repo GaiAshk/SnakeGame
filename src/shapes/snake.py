@@ -28,22 +28,22 @@ class Snake:
         key_movement_px = ConfigManager.get_int(
             ConfigType.GAME, ConfigKeys.KEY_MOVEMENT_PX
         )
-        if player_move.no_move:
+        if player_move == player_move.no_move:
             logger.info("No move made")
             return None
-        elif player_move.up:
+        elif player_move == player_move.up:
             self.x_dir = 0
             self.y_dir = 1
             self.y_pos -= int(key_movement_px * delta_time)
-        elif player_move.down:
+        elif player_move == player_move.down:
             self.x_dir = 0
             self.y_dir = -1
             self.y_pos += int(key_movement_px * delta_time)
-        elif player_move.left:
+        elif player_move == player_move.left:
             self.x_dir = -1
             self.y_dir = 0
             self.x_pos -= int(key_movement_px * delta_time)
-        elif player_move.right:
+        elif player_move == player_move.right:
             self.x_dir = 1
             self.y_dir = 0
             self.x_pos += int(key_movement_px * delta_time)
