@@ -25,7 +25,9 @@ def draw_snake() -> None:
 
     # update snake location
     player_move = get_player_move()
+
     snake.update_location(player_move, delta_time)
+
     Pygame.draw_rect(snake.color, snake.x_pos, snake.y_pos, snake.width, snake.height)
 
 
@@ -45,20 +47,23 @@ def update_clock():
     )
 
 
-def run_game():
-
+def init_game():
     Pygame.init()
 
     screen_width_px = ConfigManager.get_int(
-        ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX
+            ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX
     )
     screen_height_px = ConfigManager.get_int(
-        ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX
+            ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX
     )
     screen_color = ConfigManager.get(ConfigType.SCREEN, ConfigKeys.SCREEN_COLOR)
     Pygame.set_screen_mode(screen_width_px, screen_height_px, screen_color)
 
     Pygame.init_clock()
+
+
+def run_game():
+    init_game()
 
     running = True
 
