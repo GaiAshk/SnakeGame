@@ -1,14 +1,14 @@
 import pygame
 
-from src.configuration.allowed_player_moves import AllowedPlayerMoves
-from typing import Optional
+from src.configuration.modles import AllowedPlayerMoves
+from src.contracts.drawing_contract import DrawingLib
 
 
-class Pygame:
+class Pygame(DrawingLib):
 
-    screen: Optional[pygame.surface.Surface] = None
-    screen_color: Optional[str] = None
-    clock: Optional[pygame.time.Clock] = None
+    screen: pygame.surface.Surface = pygame.display.set_mode((0, 0))
+    screen_color: str = "no_color"
+    clock: pygame.time.Clock = pygame.time.Clock()
 
     @classmethod
     def init(cls):
@@ -16,14 +16,13 @@ class Pygame:
 
     @classmethod
     def set_screen_mode(cls, screen_width_px, screen_height_px, screen_color):
-
         cls.screen = pygame.display.set_mode((screen_width_px, screen_height_px))
         cls.screen_color = screen_color
         cls.screen.fill(screen_color)
 
     @classmethod
-    def init_clock(cls):
-        cls.clock = pygame.time.Clock()
+    def init_clock(cls) -> pygame.time.Clock:
+        return pygame.time.Clock()
 
     @classmethod
     def event_get(cls):
@@ -49,9 +48,11 @@ class Pygame:
         pygame.display.flip()
 
     @classmethod
-    def draw_rect(cls, color: str, left, top, width, height):
+    def draw_rect(
+        cls, color: str, left: int, top: int, width: int, height: int
+    ) -> None:
         pygame_rect: pygame.Rect = pygame.Rect(left, top, width, height)
-        rect = pygame.draw.rect(cls.screen, color, pygame_rect)
+        pygame.draw.rect(cls.screen, color, pygame_rect)
 
     @classmethod
     def draw_rect_move(cls, x: int, y: int):
