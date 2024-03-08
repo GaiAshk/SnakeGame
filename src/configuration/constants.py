@@ -18,6 +18,7 @@ class ConfigKeys:
     FOOD_COLOR = "FOOD_COLOR"
     FOOD_RADIUS = "FOOD_RADIUS"
     KEY_MOVEMENT_PX = "KEY_MOVEMENT_PX"
+    BORDER_PX = "BORDER_PX"
 
     # screen configs
     SCREEN_WIDTH_PX = "SCREEN_WIDTH_PX"

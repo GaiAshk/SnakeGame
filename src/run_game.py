@@ -34,8 +34,6 @@ food_manager: FoodManager = FoodManager(
 
 
 def draw_snake() -> None:
-    snake_manager.draw_snake()
-
     player_move = PlayerManager.get_player_move()
     snake_manager.update_location(player_move, game_manager.delta_time)
     snake_manager.draw_snake()
