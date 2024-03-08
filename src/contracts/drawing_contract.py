@@ -43,6 +43,8 @@ def get_drawing_lib() -> Union[DrawingLib, Any]:
         from src.deps_wrappers.pygame_wrapper import Pygame
 
         return Pygame
+    elif drawing_lib == AllowedDrawingLibs.turtle.value:
+        return "turtle"  # not implemented yet
     else:
         logger.error("invalid drawing lib")
         return None

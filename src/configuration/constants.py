@@ -10,6 +10,7 @@ class ConfigType:
 class ConfigKeys:
     # game configs
     FPS = "FPS"
+    GAME_LIB = "GAME_LIB"
     DRAWING_LIB = "DRAWING_LIB"
     SNAKE_COLOR = "SNAKE_COLOR"
     SNAKE_WIDTH_PX = "SNAKE_WIDTH_PX"

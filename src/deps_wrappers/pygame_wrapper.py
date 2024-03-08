@@ -2,12 +2,13 @@ import pygame
 
 from src.configuration.modles import AllowedPlayerMoves
 from src.contracts.drawing_contract import DrawingLib
+from src.contracts.game_contract import GameLib
 
 
-class Pygame(DrawingLib):
+class Pygame(DrawingLib, GameLib):
 
     screen: pygame.surface.Surface = pygame.display.set_mode((0, 0))
-    screen_color: str = "no_color"
+    screen_color: str = ""
     clock: pygame.time.Clock = pygame.time.Clock()
 
     @classmethod
@@ -15,10 +16,17 @@ class Pygame(DrawingLib):
         pygame.init()
 
     @classmethod
-    def set_screen_mode(cls, screen_width_px, screen_height_px, screen_color):
+    def set_screen_mode(
+        cls, screen_width_px: int, screen_height_px: int, screen_color: str
+    ):
         cls.screen = pygame.display.set_mode((screen_width_px, screen_height_px))
         cls.screen_color = screen_color
         cls.screen.fill(screen_color)
+
+    @classmethod
+    def init_game(cls, screen_width_px: int, screen_height_px: int, screen_color: str):
+        cls.init()
+        cls.set_screen_mode(screen_width_px, screen_height_px, screen_color)
 
     @classmethod
     def init_clock(cls) -> pygame.time.Clock:
@@ -29,22 +37,22 @@ class Pygame(DrawingLib):
         return pygame.event.get()
 
     @classmethod
-    def should_quit(cls):
+    def should_quit(cls) -> bool:
         for event in Pygame.event_get():
             if event.type == pygame.QUIT:
                 return True
         return False
 
     @classmethod
-    def wipe_screen(cls):
+    def clean_screen(cls):
         cls.screen.fill(cls.screen_color)
 
     @classmethod
-    def quit(cls):
+    def exit_game(cls):
         pygame.quit()
 
     @classmethod
-    def flip(cls):
+    def update_screen(cls):
         pygame.display.flip()
 
     @classmethod
@@ -63,7 +71,7 @@ class Pygame(DrawingLib):
         pygame.draw.circle(cls.screen, color, center, radius)
 
     @classmethod
-    def tick_clock(cls, fps: int) -> float:
+    def update_clock(cls, fps: int) -> float:
         # limits FPS to a constant FPS
         # dt is delta time in seconds since last frame, used for frame rate independent physics.
         dt: float = cls.clock.tick(fps) / 1000

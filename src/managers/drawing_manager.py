@@ -1,10 +1,10 @@
 from src.configuration.modles import Location
-from src.contracts.drawing_contract import DrawingLib, DrawLibTyping
+from src.contracts.drawing_contract import DrawingLib
 
 
 class DrawingManager:
 
-    def __init__(self, drawing_lib: DrawingLib = DrawLibTyping()):
+    def __init__(self, drawing_lib: DrawingLib):
         self.drawing_lib: DrawingLib = drawing_lib
 
     def draw_circle(self, color: str, center: Location, radius: int) -> None:
