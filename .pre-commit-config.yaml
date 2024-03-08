@@ -32,4 +32,5 @@ repos:
       args:
         [
           "-rn", # Only display messages
+          "--errors-only"
         ]

@@ -1,6 +1,5 @@
 import logging
 import sys
-from typing import Optional
 
 from src.configuration.constants import ConfigType, ConfigKeys
 from src.utils.config_manager import ConfigManager

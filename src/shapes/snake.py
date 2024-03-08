@@ -1,4 +1,4 @@
-from src.configuration.allowed_player_moves import AllowedPlayerMoves
+from src.configuration.modles import AllowedPlayerMoves, Location
 from src.configuration.constants import ConfigType, ConfigKeys
 from src.utils.config_manager import ConfigManager
 from src.utils.logger import logger
@@ -29,7 +29,6 @@ class Snake:
             ConfigType.GAME, ConfigKeys.KEY_MOVEMENT_PX
         )
         if player_move == player_move.no_move:
-            logger.info("No move made")
             return None
         elif player_move == player_move.up:
             self.x_dir = 0
@@ -52,3 +51,6 @@ class Snake:
 
         logger.debug(f"Snake location is: {self.y_pos}, {self.x_pos}")
         return None
+
+    def get_current_snake_location(self) -> Location:
+        return self.x_pos, self.y_pos

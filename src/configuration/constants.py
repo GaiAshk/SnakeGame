@@ -10,10 +10,12 @@ class ConfigType:
 class ConfigKeys:
     # game configs
     FPS = "FPS"
+    DRAWING_LIB = "DRAWING_LIB"
     SNAKE_COLOR = "SNAKE_COLOR"
     SNAKE_WIDTH_PX = "SNAKE_WIDTH_PX"
     SNAKE_HEIGHT_PX = "SNAKE_HEIGHT_PX"
     FOOD_COLOR = "FOOD_COLOR"
+    FOOD_RADIUS = "FOOD_RADIUS"
     KEY_MOVEMENT_PX = "KEY_MOVEMENT_PX"
 
     # screen configs
