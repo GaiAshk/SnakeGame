@@ -15,4 +15,8 @@ class AllowedDrawingLibs(Enum):
     turtle = "turtle"
 
 
+class AllowedGameLibs(Enum):
+    pygame = "pygame"
+
+
 Location = tuple[int, int]  # location[0] is x-axis and location[1] is y-axis

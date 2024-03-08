@@ -1,9 +1,11 @@
-from src.configuration.modles import AllowedPlayerMoves, Location
+from src.configuration.modles import Location
 from src.configuration.constants import ConfigType, ConfigKeys
 from src.contracts.drawing_contract import DrawingLib, get_drawing_lib
-from src.deps_wrappers.pygame_wrapper import Pygame
+from src.contracts.game_contract import GameLib, get_game_lib
 from src.managers.drawing_manager import DrawingManager
 from src.managers.food_manager import FoodManager
+from src.managers.game_manager import GameManager
+from src.managers.player_manager import PlayerManager
 from src.managers.snake_manager import SnakeManager
 from src.utils.config_manager import ConfigManager
 from src.utils.logger import logger
@@ -11,8 +13,17 @@ from src.utils.logger import logger
 drawing_lib: DrawingLib = get_drawing_lib()
 drawing_manager: DrawingManager = DrawingManager(drawing_lib)
 
-screen_width_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX)
-screen_height_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX)
+game_lib: GameLib = get_game_lib()
+screen_width_px: int = ConfigManager.get_int(
+    ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX
+)
+screen_height_px: int = ConfigManager.get_int(
+    ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX
+)
+screen_color: str = ConfigManager.get(ConfigType.SCREEN, ConfigKeys.SCREEN_COLOR)
+game_manager: GameManager = GameManager(
+    game_lib, screen_width_px, screen_height_px, screen_color
+)
 
 snake_manager: SnakeManager = SnakeManager(
     screen_width_px, screen_height_px, drawing_manager
@@ -20,21 +31,12 @@ snake_manager: SnakeManager = SnakeManager(
 food_manager: FoodManager = FoodManager(
     screen_width_px, screen_height_px, drawing_manager
 )
-delta_time: float = 0.0
 
 
 def draw_snake() -> None:
+    player_move = PlayerManager.get_player_move()
+    snake_manager.update_location(player_move, game_manager.delta_time)
     snake_manager.draw_snake()
-
-    # update snake location
-    player_move = get_player_move()
-
-    snake_manager.update_location(player_move, delta_time)
-    snake_manager.draw_snake()
-
-
-def get_player_move() -> AllowedPlayerMoves:
-    return Pygame.get_players_move()
 
 
 def create_food():
@@ -45,24 +47,8 @@ def create_food():
         food_manager.draw_food()
 
 
-def update_clock():
-    global delta_time
-    delta_time = Pygame.tick_clock(
-        ConfigManager.get_int(ConfigType.GAME, ConfigKeys.FPS)
-    )
-
-
 def init_game():
-    Pygame.init()
-
-    screen_width_px = ConfigManager.get_int(
-        ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX
-    )
-    screen_height_px = ConfigManager.get_int(
-        ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX
-    )
-    screen_color = ConfigManager.get(ConfigType.SCREEN, ConfigKeys.SCREEN_COLOR)
-    Pygame.set_screen_mode(screen_width_px, screen_height_px, screen_color)
+    game_manager.init_game()
 
 
 def is_food_eaten() -> bool:
@@ -84,17 +70,17 @@ def run_game():
     running = True
 
     while running:
-        if Pygame.should_quit():
+        if game_manager.should_quit():
             running = False
 
-        Pygame.wipe_screen()
+        game_manager.clean_screen()
 
         draw_snake()
 
         create_food()
 
-        Pygame.flip()
+        game_manager.update_screen()
 
-        update_clock()
+        game_manager.update_clock()
 
-    Pygame.quit()
+    game_manager.exit_game()
