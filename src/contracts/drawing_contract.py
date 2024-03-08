@@ -19,6 +19,10 @@ class DrawingLib(ABC):
     ) -> None:
         pass
 
+    @abstractmethod
+    def get_screen_center(self):
+        pass
+
 
 class DrawLibTyping(DrawingLib):
     def draw_circle(self, color: str, center: tuple[int, int], radius: int) -> None:
@@ -27,6 +31,9 @@ class DrawLibTyping(DrawingLib):
     def draw_rect(
         self, color: str, left: int, top: int, width: int, height: int
     ) -> None:
+        pass
+
+    def get_screen_center(self):
         pass
 
 

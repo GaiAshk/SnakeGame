@@ -4,34 +4,33 @@ from src.contracts.drawing_contract import DrawingLib, get_drawing_lib
 from src.deps_wrappers.pygame_wrapper import Pygame
 from src.managers.drawing_manager import DrawingManager
 from src.managers.food_manager import FoodManager
-from src.shapes.snake import Snake
+from src.managers.snake_manager import SnakeManager
 from src.utils.config_manager import ConfigManager
 from src.utils.logger import logger
-from typing import Optional
 
-snake: Optional[Snake] = None
-drawing_manager: DrawingManager = DrawingManager()
-food_manager: FoodManager = FoodManager(0, 0, drawing_manager)
+drawing_lib: DrawingLib = get_drawing_lib()
+drawing_manager: DrawingManager = DrawingManager(drawing_lib)
+
+screen_width_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX)
+screen_height_px = ConfigManager.get_int(ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX)
+
+snake_manager: SnakeManager = SnakeManager(
+    screen_width_px, screen_height_px, drawing_manager
+)
+food_manager: FoodManager = FoodManager(
+    screen_width_px, screen_height_px, drawing_manager
+)
 delta_time: float = 0.0
 
 
 def draw_snake() -> None:
-    global snake
-    if not snake:
-        # draw first snake at screen center
-        screen_center_x, screen_center_y = Pygame.get_screen_center()
-        snake = Snake(screen_center_x, screen_center_y)
-        Pygame.draw_rect(
-            snake.color, snake.x_pos, snake.y_pos, snake.width, snake.height
-        )
-        return None
+    snake_manager.draw_snake()
 
     # update snake location
     player_move = get_player_move()
 
-    snake.update_location(player_move, delta_time)
-
-    Pygame.draw_rect(snake.color, snake.x_pos, snake.y_pos, snake.width, snake.height)
+    snake_manager.update_location(player_move, delta_time)
+    snake_manager.draw_snake()
 
 
 def get_player_move() -> AllowedPlayerMoves:
@@ -39,27 +38,11 @@ def get_player_move() -> AllowedPlayerMoves:
 
 
 def create_food():
-    screen_width_px = ConfigManager.get_int(
-        ConfigType.SCREEN, ConfigKeys.SCREEN_WIDTH_PX
-    )
-    screen_height_px = ConfigManager.get_int(
-        ConfigType.SCREEN, ConfigKeys.SCREEN_HEIGHT_PX
-    )
-
-    global food_manager
-    if not food_manager.is_initialized():
-        food_manager.re_init(screen_width_px, screen_height_px, drawing_manager)
-
     if is_food_eaten():
         logger.info("updating food location")
         food_manager.update_food_location()
     else:
         food_manager.draw_food()
-
-
-def pre_init() -> None:
-    drawing_lib: DrawingLib = get_drawing_lib()
-    drawing_manager.update_drawing_manager(drawing_lib)
 
 
 def update_clock():
@@ -83,8 +66,8 @@ def init_game():
 
 
 def is_food_eaten() -> bool:
-    current_food_location: Location = food_manager.food.get_food_location()
-    current_snake_location: Location = snake.get_current_snake_location()
+    current_food_location: Location = food_manager.get_food_location()
+    current_snake_location: Location = snake_manager.get_current_snake_location()
 
     if (
         current_food_location[0] == current_snake_location[0]
@@ -96,8 +79,6 @@ def is_food_eaten() -> bool:
 
 
 def run_game():
-    pre_init()
-
     init_game()
 
     running = True
