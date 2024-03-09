@@ -40,7 +40,7 @@ def draw_snake() -> None:
     snake_manager.draw_snake()
 
 
-def create_food():
+def draw_food_and_snake_ate_food_logic():
     if is_food_eaten():
         logger.info("updating food location")
         food_manager.update_food_location()
@@ -85,7 +85,7 @@ def run_game():
 
         draw_snake()
 
-        create_food()
+        draw_food_and_snake_ate_food_logic()
 
         game_manager.update_screen()
 
