@@ -14,6 +14,10 @@ class GameLib(ABC):
         pass
 
     @abstractmethod
+    def set_screen_title(self, title: str) -> None:
+        pass
+
+    @abstractmethod
     def update_clock(self, fps: int) -> float:
         pass
 
