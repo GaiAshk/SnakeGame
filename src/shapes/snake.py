@@ -24,3 +24,6 @@ class Snake:
     def update_location(self, location: Location) -> None:
         self.x_pos = location[0]
         self.y_pos = location[1]
+
+    def increase_food_eaten(self) -> None:
+        self.food_eaten += 1

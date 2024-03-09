@@ -103,3 +103,6 @@ class SnakeManager:
             self.snake.x_pos += int(key_movement_px * delta_time)
         else:
             logger.error("Not allowed move")
+
+    def snake_ate_food(self) -> None:
+        self.snake.increase_food_eaten()
