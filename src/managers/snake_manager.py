@@ -67,9 +67,6 @@ class SnakeManager:
     ) -> bool:
         """Checks if the move is valid, for example moving up when snake is at the top of the screen is not allowed
         because that will cause the snake to exit the screen"""
-        if player_move == player_move.no_move:
-            return False
-
         key_movement_px = ConfigManager.get_int(
             ConfigType.GAME, ConfigKeys.KEY_MOVEMENT_PX
         )
@@ -99,6 +96,8 @@ class SnakeManager:
                 if new_x_pos + valid_move_boarder_x_px > self.screen_width_px
                 else True
             )
+        elif player_move == player_move.no_move:
+            pass
         else:
             logger.error("invalid move check")
         return True
@@ -126,6 +125,18 @@ class SnakeManager:
             self.snake.x_dir = 1
             self.snake.y_dir = 0
             self.snake.head_x_pos += int(key_movement_px * delta_time)
+        elif player_move == player_move.no_move:
+            # continue to move the same direction the same was moving in for the last time
+            if self.snake.x_dir != 0:
+                self.snake.head_x_pos += int(
+                    key_movement_px * delta_time * self.snake.x_dir
+                )
+            elif self.snake.y_dir != 0:
+                self.snake.head_y_pos -= int(
+                    key_movement_px * delta_time * self.snake.y_dir
+                )
+            else:
+                logger.error("un expected result, snake direction must be x or y")
         else:
             logger.error("Not allowed move")
 
