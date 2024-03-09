@@ -1,4 +1,4 @@
-from src.configuration.modles import AllowedPlayerMoves
+from src.modles.modles import AllowedPlayerMoves
 from src.deps_wrappers.pygame_wrapper import Pygame
 
 

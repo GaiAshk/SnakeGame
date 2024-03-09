@@ -1,4 +1,4 @@
-from src.configuration.modles import Location
+from src.modles.modles import Location
 from src.configuration.constants import ConfigType, ConfigKeys
 from src.contracts.drawing_contract import DrawingLib, get_drawing_lib
 from src.contracts.game_contract import GameLib, get_game_lib

@@ -1,6 +1,6 @@
 import pygame
 
-from src.configuration.modles import AllowedPlayerMoves
+from src.modles.modles import AllowedPlayerMoves
 from src.contracts.drawing_contract import DrawingLib
 from src.contracts.game_contract import GameLib
 

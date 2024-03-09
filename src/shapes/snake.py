@@ -1,5 +1,5 @@
 from src.configuration.constants import ConfigType, ConfigKeys
-from src.configuration.modles import Location
+from src.modles.modles import Location
 from src.utils.config_manager import ConfigManager
 
 

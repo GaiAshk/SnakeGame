@@ -1,4 +1,4 @@
-from src.configuration.modles import Location
+from src.modles.modles import Location
 from src.contracts.drawing_contract import DrawingLib
 
 
