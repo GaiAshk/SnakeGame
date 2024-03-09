@@ -37,6 +37,10 @@ class GameLib(ABC):
     def should_quit(self) -> bool:
         pass
 
+    @abstractmethod
+    def display_score(self, score: str):
+        pass
+
 
 def get_game_lib() -> Union[GameLib, Any]:
     game_lib: str = ConfigManager.get(ConfigType.GAME, ConfigKeys.GAME_LIB)

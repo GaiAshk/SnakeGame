@@ -20,6 +20,17 @@ class Pygame(DrawingLib, GameLib):
         pygame.display.set_caption(title)
 
     @classmethod
+    def display_score(cls, score_txt: str):
+        font_name = None
+        font_size = 36
+        font = pygame.font.Font(font_name, font_size)
+        anti_alias = True
+        white_color_font = (255, 255, 255)
+        score_to_render = font.render(score_txt, anti_alias, white_color_font)
+        destination_on_screen = (10, 10)
+        cls.screen.blit(score_to_render, destination_on_screen)
+
+    @classmethod
     def set_screen_mode(
         cls, screen_width_px: int, screen_height_px: int, screen_color: str
     ):

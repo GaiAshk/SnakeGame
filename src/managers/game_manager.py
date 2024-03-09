@@ -27,6 +27,9 @@ class GameManager:
         game_title = ConfigManager.get(ConfigType.GAME, ConfigKeys.GAME_TITLE)
         self.game_lib.set_screen_title(game_title)
 
+        initial_score_txt = "No point"
+        self.game_lib.display_score(initial_score_txt)
+
     def update_clock(self) -> None:
         self.delta_time = self.game_lib.update_clock(
             ConfigManager.get_int(ConfigType.GAME, ConfigKeys.FPS)
@@ -43,3 +46,7 @@ class GameManager:
 
     def should_quit(self) -> bool:
         return self.game_lib.should_quit()
+
+    def display_score(self, score: int) -> None:
+        score_txt = f"Score: {score}"
+        self.game_lib.display_score(score_txt)
