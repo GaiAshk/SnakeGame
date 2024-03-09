@@ -78,10 +78,6 @@ class Pygame(DrawingLib, GameLib):
         pygame.draw.rect(cls.screen, color, pygame_rect)
 
     @classmethod
-    def draw_rect_move(cls, x: int, y: int):
-        pass
-
-    @classmethod
     def draw_circle(cls, color: str, center: tuple[int, int], radius: int):
         pygame.draw.circle(cls.screen, color, center, radius)
 

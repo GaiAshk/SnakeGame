@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any
 
 from src.configuration.constants import ConfigKeys, ConfigType
 from src.modles.modles import AllowedDrawingLibs
@@ -24,14 +24,16 @@ class DrawingLib(ABC):
         pass
 
 
-def get_drawing_lib() -> Union[DrawingLib, Any]:
+def get_drawing_lib() -> DrawingLib | Any:
     drawing_lib: str = ConfigManager.get(ConfigType.GAME, ConfigKeys.DRAWING_LIB)
     if drawing_lib == AllowedDrawingLibs.pygame.value:
         from src.deps_wrappers.pygame_wrapper import Pygame
 
         return Pygame
     elif drawing_lib == AllowedDrawingLibs.turtle.value:
-        return "turtle"  # not implemented yet
+        from src.deps_wrappers.turtle_wrapper import TurtleWrap
+
+        return TurtleWrap
     else:
         logger.error("invalid drawing lib")
         return None

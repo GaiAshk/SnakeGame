@@ -5,7 +5,6 @@ from src.contracts.game_contract import GameLib, get_game_lib
 from src.managers.drawing_manager import DrawingManager
 from src.managers.food_manager import FoodManager
 from src.managers.game_manager import GameManager
-from src.managers.player_manager import PlayerManager
 from src.managers.snake_manager import SnakeManager
 from src.utils.config_manager import ConfigManager
 from src.utils.intersections import do_location_intersect
@@ -35,7 +34,7 @@ food_manager: FoodManager = FoodManager(
 
 
 def draw_snake() -> None:
-    player_move = PlayerManager.get_player_move()
+    player_move = game_manager.get_player_move()
     snake_manager.update_location(player_move, game_manager.delta_time)
     snake_manager.draw_snake()
 
