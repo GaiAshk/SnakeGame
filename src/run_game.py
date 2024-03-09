@@ -72,6 +72,10 @@ def is_food_eaten() -> bool:
         return False
 
 
+def check_if_snake_died() -> bool:
+    return snake_manager.is_snake_dead()
+
+
 def run_game():
     init_game()
 
@@ -84,6 +88,10 @@ def run_game():
         game_manager.clean_screen()
 
         draw_snake()
+
+        if check_if_snake_died():
+            logger.info("Snake died, restarting game...")
+            snake_manager.kill_snake()
 
         draw_food_and_snake_ate_food_logic()
 
