@@ -8,6 +8,8 @@ from src.utils.logger import logger
 
 class SnakeManager:
 
+    SNAKE_VALID_MOVE_BOARDER_PX = 7
+
     def __init__(
         self,
         screen_width_px: int,
@@ -71,20 +73,32 @@ class SnakeManager:
         key_movement_px = ConfigManager.get_int(
             ConfigType.GAME, ConfigKeys.KEY_MOVEMENT_PX
         )
-        border_px = ConfigManager.get_int(ConfigType.GAME, ConfigKeys.BORDER_PX)
+        border_px_y = ConfigManager.get_int(ConfigType.GAME, ConfigKeys.BORDER_PX_Y)
+        valid_move_boarder_y_px = border_px_y - self.SNAKE_VALID_MOVE_BOARDER_PX
+
+        border_px_x = ConfigManager.get_int(ConfigType.GAME, ConfigKeys.BORDER_PX_X)
+        valid_move_boarder_x_px = border_px_x - self.SNAKE_VALID_MOVE_BOARDER_PX
 
         if player_move == player_move.up:
             new_y_pos = self.snake.head_y_pos - int(key_movement_px * delta_time)
-            return False if new_y_pos - border_px < 0 else True
+            return False if new_y_pos - valid_move_boarder_y_px < 0 else True
         elif player_move == player_move.down:
             new_y_pos = self.snake.head_y_pos + int(key_movement_px * delta_time)
-            return False if new_y_pos + border_px > self.screen_height_px else True
+            return (
+                False
+                if new_y_pos + valid_move_boarder_y_px > self.screen_height_px
+                else True
+            )
         elif player_move == player_move.left:
             new_x_pos = self.snake.head_x_pos - int(key_movement_px * delta_time)
-            return False if new_x_pos - border_px < 0 else True
+            return False if new_x_pos - valid_move_boarder_x_px < 0 else True
         elif player_move == player_move.right:
             new_x_pos = self.snake.head_x_pos + int(key_movement_px * delta_time)
-            return False if new_x_pos + border_px > self.screen_width_px else True
+            return (
+                False
+                if new_x_pos + valid_move_boarder_x_px > self.screen_width_px
+                else True
+            )
         else:
             logger.error("invalid move check")
         return True
@@ -117,3 +131,45 @@ class SnakeManager:
 
     def snake_ate_food(self) -> None:
         self.snake.increase_food_eaten()
+
+    def _is_snake_hitting_boarder(self) -> bool:
+        border_y_px = ConfigManager.get_int(ConfigType.GAME, ConfigKeys.BORDER_PX_Y)
+        border_x_px = ConfigManager.get_int(ConfigType.GAME, ConfigKeys.BORDER_PX_X)
+
+        if self.snake.head_y_pos - border_y_px <= 0:
+            return True
+
+        if self.snake.head_y_pos + border_y_px >= self.screen_height_px:
+            return True
+
+        if self.snake.head_x_pos + border_x_px >= self.screen_width_px:
+            return True
+
+        if self.snake.head_x_pos - border_x_px <= 0:
+            return True
+
+        return False
+
+    def is_snake_dead(self) -> bool:
+        is_snake_on_himself: bool = (
+            self.snake.head_x_pos,
+            self.snake.head_y_pos,
+        ) in self.snake.tail
+        if is_snake_on_himself:
+            logger.info(
+                f"Snake on himself, snake position: {self.snake.head_x_pos}, {self.snake.head_y_pos}"
+            )
+
+        is_snake_on_boarder: bool = self._is_snake_hitting_boarder()
+        if is_snake_on_boarder:
+            logger.info(
+                f"Snake on boarder, snake position: {self.snake.head_x_pos}, {self.snake.head_y_pos}"
+            )
+
+        return is_snake_on_himself or is_snake_on_boarder
+
+    def kill_snake(self):
+        snake_initial_x_position, snake_initial_y_position = (
+            self.drawing_manager.get_screen_center()
+        )
+        self.snake: Snake = Snake(snake_initial_x_position, snake_initial_y_position)
