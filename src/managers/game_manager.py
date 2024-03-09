@@ -24,6 +24,9 @@ class GameManager:
             self.screen_width_px, self.screen_height_px, self.screen_color
         )
 
+        game_title = ConfigManager.get(ConfigType.GAME, ConfigKeys.GAME_TITLE)
+        self.game_lib.set_screen_title(game_title)
+
     def update_clock(self) -> None:
         self.delta_time = self.game_lib.update_clock(
             ConfigManager.get_int(ConfigType.GAME, ConfigKeys.FPS)

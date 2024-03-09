@@ -9,6 +9,7 @@ class ConfigType:
 
 class ConfigKeys:
     # game configs
+    GAME_TITLE = "GAME_TITLE"
     FPS = "FPS"
     GAME_LIB = "GAME_LIB"
     DRAWING_LIB = "DRAWING_LIB"

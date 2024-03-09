@@ -16,6 +16,10 @@ class Pygame(DrawingLib, GameLib):
         pygame.init()
 
     @classmethod
+    def set_screen_title(cls, title: str) -> None:
+        pygame.display.set_caption(title)
+
+    @classmethod
     def set_screen_mode(
         cls, screen_width_px: int, screen_height_px: int, screen_color: str
     ):
