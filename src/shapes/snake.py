@@ -9,7 +9,7 @@ class Snake:
         self.head_x_pos: int = x_pos
         self.head_y_pos: int = y_pos
         self.food_eaten: int = 0
-        self.y_dir: int = 0
+        self.y_dir: int | float = 0.1
         self.x_dir: int = 0
         self.width: int = ConfigManager.get_int(
             ConfigType.GAME, ConfigKeys.SNAKE_WIDTH_PX
