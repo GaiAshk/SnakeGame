@@ -184,3 +184,6 @@ class SnakeManager:
             self.drawing_manager.get_screen_center()
         )
         self.snake: Snake = Snake(snake_initial_x_position, snake_initial_y_position)
+
+    def get_food_eaten(self) -> int:
+        return self.snake.food_eaten

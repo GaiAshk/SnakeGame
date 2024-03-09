@@ -76,6 +76,10 @@ def check_if_snake_died() -> bool:
     return snake_manager.is_snake_dead()
 
 
+def display_score():
+    game_manager.display_score(snake_manager.get_food_eaten())
+
+
 def run_game():
     init_game()
 
@@ -86,6 +90,8 @@ def run_game():
             running = False
 
         game_manager.clean_screen()
+
+        display_score()
 
         draw_snake()
 
