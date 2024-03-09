@@ -1,5 +1,5 @@
 from src.configuration.constants import ConfigKeys, ConfigType
-from src.configuration.modles import AllowedPlayerMoves, Location
+from src.modles.modles import AllowedPlayerMoves, Location
 from src.managers.drawing_manager import DrawingManager
 from src.shapes.snake import Snake
 from src.utils.config_manager import ConfigManager
@@ -103,3 +103,6 @@ class SnakeManager:
             self.snake.x_pos += int(key_movement_px * delta_time)
         else:
             logger.error("Not allowed move")
+
+    def snake_ate_food(self) -> None:
+        self.snake.increase_food_eaten()

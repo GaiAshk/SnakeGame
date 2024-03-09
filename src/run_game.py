@@ -1,4 +1,4 @@
-from src.configuration.modles import Location
+from src.modles.modles import Location
 from src.configuration.constants import ConfigType, ConfigKeys
 from src.contracts.drawing_contract import DrawingLib, get_drawing_lib
 from src.contracts.game_contract import GameLib, get_game_lib
@@ -8,6 +8,7 @@ from src.managers.game_manager import GameManager
 from src.managers.player_manager import PlayerManager
 from src.managers.snake_manager import SnakeManager
 from src.utils.config_manager import ConfigManager
+from src.utils.intersections import do_location_intersect
 from src.utils.logger import logger
 
 drawing_lib: DrawingLib = get_drawing_lib()
@@ -43,6 +44,7 @@ def create_food():
     if is_food_eaten():
         logger.info("updating food location")
         food_manager.update_food_location()
+        snake_manager.snake_ate_food()
     else:
         food_manager.draw_food()
 
@@ -51,14 +53,20 @@ def init_game():
     game_manager.init_game()
 
 
+def _does_snake_intersect_with_food(
+    food_location: Location, snake_location: Location
+) -> bool:
+    food_eating_sensitivity: int = ConfigManager.get_int(
+        ConfigType.GAME, ConfigKeys.FOOD_EATING_SENSITIVITY
+    )
+    return do_location_intersect(food_location, snake_location, food_eating_sensitivity)
+
+
 def is_food_eaten() -> bool:
     current_food_location: Location = food_manager.get_food_location()
     current_snake_location: Location = snake_manager.get_current_snake_location()
 
-    if (
-        current_food_location[0] == current_snake_location[0]
-        and current_food_location[1] == current_snake_location[1]
-    ):
+    if _does_snake_intersect_with_food(current_food_location, current_snake_location):
         return True
     else:
         return False

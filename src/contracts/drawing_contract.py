@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Union
 
 from src.configuration.constants import ConfigKeys, ConfigType
-from src.configuration.modles import AllowedDrawingLibs
+from src.modles.modles import AllowedDrawingLibs
 from src.utils.config_manager import ConfigManager
 from src.utils.logger import logger
 

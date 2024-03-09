@@ -1,4 +1,4 @@
-from src.configuration.modles import Location
+from src.modles.modles import Location
 from src.managers.drawing_manager import DrawingManager
 from src.shapes.food import Food
 from src.utils.random_number_generator import get_random_int
