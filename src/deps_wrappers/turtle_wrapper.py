@@ -15,31 +15,21 @@ class TurtleWrap(DrawingLib, GameLib):
 
     player_move = AllowedPlayerMoves.no_move
 
-    # @classmethod
-    # def go_up(cls):
-    #     print("go up called")
-    #     cls.player_move = AllowedPlayerMoves.up
-    #
-    # @classmethod
-    # def go_down(cls):
-    #     print("go up called")
-    #     cls.player_move = AllowedPlayerMoves.down
-    #
-    # @classmethod
-    # def go_left(cls):
-    #     print("go up called")
-    #     cls.player_move = AllowedPlayerMoves.left
-    #
-    # @classmethod
-    # def go_right(cls):
-    #     print("go up called")
-    #     cls.player_move = AllowedPlayerMoves.right
-    #
-    # screen.listen()
-    # screen.onkeypress(go_up, "w")
-    # screen.onkeypress(go_down, "s")
-    # screen.onkeypress(go_right, "d")
-    # screen.onkeypress(go_left, "a")
+    @classmethod
+    def go_up(cls):
+        cls.player_move = AllowedPlayerMoves.up
+
+    @classmethod
+    def go_down(cls):
+        cls.player_move = AllowedPlayerMoves.down
+
+    @classmethod
+    def go_left(cls):
+        cls.player_move = AllowedPlayerMoves.left
+
+    @classmethod
+    def go_right(cls):
+        cls.player_move = AllowedPlayerMoves.right
 
     @classmethod
     def init(cls):
@@ -92,6 +82,7 @@ class TurtleWrap(DrawingLib, GameLib):
 
     @classmethod
     def exit_game(cls):
+        cls.screen.mainloop()
         turtle.bye()
 
     @classmethod
@@ -130,7 +121,7 @@ class TurtleWrap(DrawingLib, GameLib):
 
     @classmethod
     def update_clock(cls, fps: int) -> float:
-        return 0.044
+        return 0.144
 
     @classmethod
     def get_screen_center(cls) -> tuple[int, int]:
@@ -138,6 +129,12 @@ class TurtleWrap(DrawingLib, GameLib):
 
     @classmethod
     def get_players_move(cls) -> AllowedPlayerMoves:
+        cls.screen.listen()
+        cls.screen.onkeypress(cls.go_up, "w")
+        cls.screen.onkeypress(cls.go_down, "s")
+        cls.screen.onkeypress(cls.go_right, "d")
+        cls.screen.onkeypress(cls.go_left, "a")
+
         return cls.player_move
 
     @classmethod
