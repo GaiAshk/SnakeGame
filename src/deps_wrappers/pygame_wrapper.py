@@ -48,12 +48,12 @@ class Pygame(DrawingLib, GameLib):
         return pygame.time.Clock()
 
     @classmethod
-    def event_get(cls):
+    def _event_get(cls):
         return pygame.event.get()
 
     @classmethod
     def should_quit(cls) -> bool:
-        for event in Pygame.event_get():
+        for event in Pygame._event_get():
             if event.type == pygame.QUIT:
                 return True
         return False
@@ -76,10 +76,6 @@ class Pygame(DrawingLib, GameLib):
     ) -> None:
         pygame_rect: pygame.Rect = pygame.Rect(left, top, width, height)
         pygame.draw.rect(cls.screen, color, pygame_rect)
-
-    @classmethod
-    def draw_rect_move(cls, x: int, y: int):
-        pass
 
     @classmethod
     def draw_circle(cls, color: str, center: tuple[int, int], radius: int):

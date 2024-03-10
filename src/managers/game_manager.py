@@ -1,6 +1,6 @@
 from src.configuration.constants import ConfigKeys, ConfigType
 from src.contracts.game_contract import GameLib
-from src.deps_wrappers.pygame_wrapper import Pygame
+from src.modles.modles import AllowedPlayerMoves
 from src.utils.config_manager import ConfigManager
 
 
@@ -50,3 +50,6 @@ class GameManager:
     def display_score(self, score: int) -> None:
         score_txt = f"Score: {score}"
         self.game_lib.display_score(score_txt)
+
+    def get_player_move(self) -> AllowedPlayerMoves:
+        return self.game_lib.get_players_move()
