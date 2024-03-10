@@ -8,8 +8,38 @@ from src.contracts.game_contract import GameLib
 class TurtleWrap(DrawingLib, GameLib):
 
     screen = turtle.Screen()
+    screen.tracer(0)
     screen_width_px: int = 700
     screen_height_px: int = 700
+    screen_background_color: str = "black"
+
+    player_move = AllowedPlayerMoves.no_move
+
+    # @classmethod
+    # def go_up(cls):
+    #     print("go up called")
+    #     cls.player_move = AllowedPlayerMoves.up
+    #
+    # @classmethod
+    # def go_down(cls):
+    #     print("go up called")
+    #     cls.player_move = AllowedPlayerMoves.down
+    #
+    # @classmethod
+    # def go_left(cls):
+    #     print("go up called")
+    #     cls.player_move = AllowedPlayerMoves.left
+    #
+    # @classmethod
+    # def go_right(cls):
+    #     print("go up called")
+    #     cls.player_move = AllowedPlayerMoves.right
+    #
+    # screen.listen()
+    # screen.onkeypress(go_up, "w")
+    # screen.onkeypress(go_down, "s")
+    # screen.onkeypress(go_right, "d")
+    # screen.onkeypress(go_left, "a")
 
     @classmethod
     def init(cls):
@@ -17,8 +47,7 @@ class TurtleWrap(DrawingLib, GameLib):
 
     @classmethod
     def set_screen_title(cls, title: str) -> None:
-        screen = turtle.Screen()
-        screen.title(title)
+        cls.screen.title(title)
 
     @classmethod
     def display_score(cls, score_txt: str):
@@ -28,8 +57,10 @@ class TurtleWrap(DrawingLib, GameLib):
         pen.color("white")
         pen.penup()
         pen.hideturtle()
-        pen.goto(10, 10)
-        pen.write(score_txt, align="center", font=("candara", 36, "bold"))
+        pen.setposition(
+            cls._shift_x_int_to_turtle_screen(60), cls._shift_y_int_to_turtle_screen(40)
+        )
+        pen.write(score_txt, align="center", font=("candara", 24, "bold"))
 
     @classmethod
     def set_screen_mode(
@@ -37,29 +68,27 @@ class TurtleWrap(DrawingLib, GameLib):
     ) -> None:
         cls.screen_width_px = screen_width_px
         cls.screen_height_px = screen_height_px
+        cls.screen_background_color = screen_color
 
         cls.screen.setup(width=screen_width_px, height=screen_height_px)
-        cls.screen.bgcolor(screen_color)
+        cls.screen.bgcolor(cls.screen_background_color)
 
     @classmethod
     def init_game(cls, screen_width_px: int, screen_height_px: int, screen_color: str):
-        pass
+        cls.set_screen_mode(screen_width_px, screen_height_px, screen_color)
 
     @classmethod
     def init_clock(cls):
         pass
 
     @classmethod
-    def event_get(cls):
-        pass
-
-    @classmethod
     def should_quit(cls) -> bool:
-        pass
+        return False
 
     @classmethod
     def clean_screen(cls):
         turtle.clearscreen()
+        cls.screen.bgcolor(cls.screen_background_color)
 
     @classmethod
     def exit_game(cls):
@@ -77,19 +106,31 @@ class TurtleWrap(DrawingLib, GameLib):
         rect.shape("square")
         rect.color(color)
         rect.penup()
+        rect.speed(0)
+
+        rect.setposition(
+            cls._shift_x_int_to_turtle_screen(left),
+            cls._shift_y_int_to_turtle_screen(top),
+        )
 
     @classmethod
     def draw_circle(cls, color: str, center: tuple[int, int], radius: int):
         food = turtle.Turtle()
-        food.speed(0)
-        food.circle(radius)
-        food.color(color)
         food.penup()
-        food.goto(center[0], center[1])
+        food.speed(0)
+        food.setposition(
+            cls._shift_x_int_to_turtle_screen(center[0]),
+            cls._shift_y_int_to_turtle_screen(center[1]),
+        )
+
+        food.fillcolor(color)
+        food.begin_fill()
+        food.circle(radius)
+        food.end_fill()
 
     @classmethod
     def update_clock(cls, fps: int) -> float:
-        return 1.0
+        return 0.044
 
     @classmethod
     def get_screen_center(cls) -> tuple[int, int]:
@@ -97,29 +138,12 @@ class TurtleWrap(DrawingLib, GameLib):
 
     @classmethod
     def get_players_move(cls) -> AllowedPlayerMoves:
-        cls.screen.listen()
+        return cls.player_move
 
-        player_move = AllowedPlayerMoves.no_move
+    @classmethod
+    def _shift_x_int_to_turtle_screen(cls, number: int) -> int:
+        return number - int(cls.screen_width_px / 2)
 
-        def go_up():
-            nonlocal player_move
-            player_move = AllowedPlayerMoves.up
-
-        def go_down():
-            nonlocal player_move
-            player_move = AllowedPlayerMoves.down
-
-        def go_left():
-            nonlocal player_move
-            player_move = AllowedPlayerMoves.left
-
-        def go_right():
-            nonlocal player_move
-            player_move = AllowedPlayerMoves.right
-
-        cls.screen.onkeypress(go_up, "w")
-        cls.screen.onkeypress(go_down, "s")
-        cls.screen.onkeypress(go_right, "d")
-        cls.screen.onkeypress(go_left, "a")
-
-        return player_move
+    @classmethod
+    def _shift_y_int_to_turtle_screen(cls, number: int) -> int:
+        return (number - int(cls.screen_height_px / 2)) * -1

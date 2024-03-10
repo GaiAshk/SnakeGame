@@ -46,7 +46,7 @@ class SnakeManager:
 
     def draw_snake(self) -> None:
         self.drawing_manager.draw_rect(
-            self.snake.color,
+            self.snake.head_color,
             self.snake.head_x_pos,
             self.snake.head_y_pos,
             self.snake.width,
@@ -179,11 +179,11 @@ class SnakeManager:
 
         return is_snake_on_himself or is_snake_on_boarder
 
-    def kill_snake(self):
+    def kill_snake(self) -> None:
         snake_initial_x_position, snake_initial_y_position = (
             self.drawing_manager.get_screen_center()
         )
-        self.snake: Snake = Snake(snake_initial_x_position, snake_initial_y_position)
+        self.snake = Snake(snake_initial_x_position, snake_initial_y_position)
 
     def get_food_eaten(self) -> int:
         return self.snake.food_eaten

@@ -6,6 +6,9 @@ from src.utils.config_manager import ConfigManager
 class Snake:
     def __init__(self, x_pos: int, y_pos: int):
         self.color: str = ConfigManager.get(ConfigType.GAME, ConfigKeys.SNAKE_COLOR)
+        self.head_color: str = ConfigManager.get(
+            ConfigType.GAME, ConfigKeys.SNAKE_HEAD_COLOR
+        )
         self.head_x_pos: int = x_pos
         self.head_y_pos: int = y_pos
         self.food_eaten: int = 0

@@ -45,6 +45,7 @@ def draw_food_and_snake_ate_food_logic():
         food_manager.update_food_location()
         snake_manager.snake_ate_food()
     else:
+        logger.debug("Drawing food in same location")
         food_manager.draw_food()
 
 
