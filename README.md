@@ -11,3 +11,10 @@ The end goal is that by a simple change of configuration the player will be able
 
 ## Support
 Feel free to improve the game as you like :pray:
+
+## How to play
+1. install python3.11
+2. install requirements.txt
+3. play around with the configurations at `SnakeGame/src/configuration/config.ini`
+4. run the following command from the project root ```python src/main.py```
+5. Enjoy!!!
